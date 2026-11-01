@@ -1,7 +1,7 @@
 package com.gens.usuario.infrastructure.security;
 
 
-import com.gens.usuario.infrastructure.entity.Usuario;
+import com.gens.usuario.infrastructure.entity.UsuarioEntity;
 import com.gens.usuario.infrastructure.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,13 +20,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // Busca o usuário no banco de dados pelo e-mail
-        Usuario usuario = usuarioRepository.findByEmail(email)
+        UsuarioEntity usuarioEntity = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
 
         // Cria e retorna um objeto UserDetails com base no usuário encontrado
         return org.springframework.security.core.userdetails.User
-                .withUsername(usuario.getEmail()) // Define o nome de usuário como o e-mail
-                .password(usuario.getSenha()) // Define a senha do usuário
+                .withUsername(usuarioEntity.getEmail()) // Define o nome de usuário como o e-mail
+                .password(usuarioEntity.getSenha()) // Define a senha do usuário
                 .build(); // Constrói o objeto UserDetails
     }
 }
