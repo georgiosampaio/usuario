@@ -19,8 +19,8 @@ public class UsuarioConverter {
                 .nome(usuarioDTO.getNome())
                 .email(usuarioDTO.getEmail())
                 .senha(usuarioDTO.getSenha())
-                .enderecoEntities(paraListaEnderecos(usuarioDTO.getEnderecos()))
-                .telefoneEntities(paraListaTelefones(usuarioDTO.getTelefones()))
+                .enderecos(paraListaEnderecos(usuarioDTO.getEnderecos()))
+                .telefones(paraListaTelefones(usuarioDTO.getTelefones()))
                 .build();
     }
 
@@ -39,11 +39,11 @@ public class UsuarioConverter {
                 .build();
     }
 
-    public List<TelefoneEntity> paraListaTelefones(List<TelefoneDTO> telefoneDTO){
+    public List<TelefoneEntity> paraListaTelefones(List<TelefoneDTO> telefoneDTO) {
         return telefoneDTO.stream().map(this::telefoneConverter).toList();
     }
 
-    public TelefoneEntity telefoneConverter(TelefoneDTO telefoneDTO){
+    public TelefoneEntity telefoneConverter(TelefoneDTO telefoneDTO) {
         return TelefoneEntity.builder()
                 .ddd(telefoneDTO.getDdd())
                 .numero(telefoneDTO.getNumero())
@@ -55,8 +55,8 @@ public class UsuarioConverter {
                 .nome(usuarioEntity.getNome())
                 .email(usuarioEntity.getEmail())
                 .senha(usuarioEntity.getSenha())
-                .enderecos(paraListaEnderecosDTO(usuarioEntity.getEnderecoEntities()))
-                .telefones(paraListaTelefonesDTO(usuarioEntity.getTelefoneEntities()))
+                .enderecos(paraListaEnderecosDTO(usuarioEntity.getEnderecos()))
+                .telefones(paraListaTelefonesDTO(usuarioEntity.getTelefones()))
                 .build();
     }
 
@@ -75,14 +75,25 @@ public class UsuarioConverter {
                 .build();
     }
 
-    public List<TelefoneDTO> paraListaTelefonesDTO(List<TelefoneEntity> telefoneEntity){
+    public List<TelefoneDTO> paraListaTelefonesDTO(List<TelefoneEntity> telefoneEntity) {
         return telefoneEntity.stream().map(this::paraTelefoneDTO).toList();
     }
 
-    public TelefoneDTO paraTelefoneDTO(TelefoneEntity telefoneEntity){
+    public TelefoneDTO paraTelefoneDTO(TelefoneEntity telefoneEntity) {
         return TelefoneDTO.builder()
                 .ddd(telefoneEntity.getDdd())
                 .numero(telefoneEntity.getNumero())
+                .build();
+    }
+
+    public UsuarioEntity updateUsuario(UsuarioDTO usuarioDTO, UsuarioEntity usuarioEntity) {
+        return UsuarioEntity.builder()
+                .nome(usuarioDTO.getNome() != null ? usuarioDTO.getNome() : usuarioEntity.getNome())
+                .id(usuarioEntity.getId())
+                .email(usuarioDTO.getEmail() != null ? usuarioDTO.getEmail() : usuarioEntity.getEmail())
+                .senha(usuarioDTO.getSenha() != null ? usuarioDTO.getSenha() : usuarioEntity.getSenha())
+                .enderecos(usuarioEntity.getEnderecos())
+                .telefones(usuarioEntity.getTelefones())
                 .build();
     }
 }
