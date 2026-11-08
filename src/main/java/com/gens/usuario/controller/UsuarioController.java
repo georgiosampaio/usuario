@@ -1,8 +1,9 @@
 package com.gens.usuario.controller;
 
 import com.gens.usuario.business.UsuarioService;
+import com.gens.usuario.business.dto.EnderecoDTO;
+import com.gens.usuario.business.dto.TelefoneDTO;
 import com.gens.usuario.business.dto.UsuarioDTO;
-import com.gens.usuario.infrastructure.entity.UsuarioEntity;
 import com.gens.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<UsuarioEntity> buscarUsuarioPorEmail(@RequestParam("Email") String email) {
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@RequestParam("Email") String email) {
         return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
     }
 
@@ -50,4 +51,15 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.atualizarDadosUsuario(token, usuarioDTO));
     }
 
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizaEndereco(@RequestBody EnderecoDTO enderecoDTO,
+                                                        @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaEndereco(id, enderecoDTO));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizaTelefone(@RequestBody TelefoneDTO telefoneDTO,
+                                                         @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaTelefone(id, telefoneDTO));
+    }
 }
